@@ -47,13 +47,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import com.flowpowered.nbt.ByteArrayTag;
-import com.flowpowered.nbt.CompoundMap;
-import com.flowpowered.nbt.CompoundTag;
-import com.flowpowered.nbt.IntArrayTag;
-import com.flowpowered.nbt.ListTag;
-import com.flowpowered.nbt.ShortArrayTag;
-import com.flowpowered.nbt.Tag;
+import com.flowpowered.nbt.*;
 import com.flowpowered.nbt.itemmap.StringMapReader;
 import com.flowpowered.nbt.regionfile.RegionFileReader;
 import com.flowpowered.nbt.regionfile.SimpleRegionFileReader;
@@ -249,6 +243,8 @@ public class NBTViewer extends JFrame implements ActionListener {
             return getNode((ShortArrayTag) tag);
         } else if (tag instanceof IntArrayTag) {
             return getNode((IntArrayTag) tag);
+        } else if (tag instanceof LongArrayTag) {
+            return getNode((LongArrayTag) tag);
         }
         String message = includeName ? (tag.getName() + ":" + tag.getValue()) : tag.getValue().toString();
         return new DefaultMutableTreeNode(message);
@@ -336,6 +332,32 @@ public class NBTViewer extends JFrame implements ActionListener {
                 first = false;
             }
             String s = Integer.toString(v);
+            if (sb.length() + s.length() > MAX_WIDTH) {
+                sb.append("<br>");
+                DefaultMutableTreeNode child = new DefaultMutableTreeNode(sb.toString());
+                root.add(child);
+                sb.setLength(0);
+            }
+            sb.append(v);
+        }
+        sb.append("}");
+        DefaultMutableTreeNode child = new DefaultMutableTreeNode(sb.toString());
+        root.add(child);
+        return root;
+    }
+
+    private static DefaultMutableTreeNode getNode(LongArrayTag tag) {
+        long[] values = tag.getValue();
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(tag.getName() + " [long[" + values.length + "]]");
+        StringBuilder sb = new StringBuilder("{");
+        boolean first = true;
+        for (long v : values) {
+            if (!first) {
+                sb.append(", ");
+            } else {
+                first = false;
+            }
+            String s = Long.toString(v);
             if (sb.length() + s.length() > MAX_WIDTH) {
                 sb.append("<br>");
                 DefaultMutableTreeNode child = new DefaultMutableTreeNode(sb.toString());
