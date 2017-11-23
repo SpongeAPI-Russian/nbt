@@ -30,22 +30,7 @@ import java.nio.ByteOrder;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
-import com.flowpowered.nbt.ByteArrayTag;
-import com.flowpowered.nbt.ByteTag;
-import com.flowpowered.nbt.CompoundTag;
-import com.flowpowered.nbt.DoubleTag;
-import com.flowpowered.nbt.EndTag;
-import com.flowpowered.nbt.FloatTag;
-import com.flowpowered.nbt.IntArrayTag;
-import com.flowpowered.nbt.IntTag;
-import com.flowpowered.nbt.ListTag;
-import com.flowpowered.nbt.LongTag;
-import com.flowpowered.nbt.NBTConstants;
-import com.flowpowered.nbt.ShortArrayTag;
-import com.flowpowered.nbt.ShortTag;
-import com.flowpowered.nbt.StringTag;
-import com.flowpowered.nbt.Tag;
-import com.flowpowered.nbt.TagType;
+import com.flowpowered.nbt.*;
 
 /**
  * This class writes NBT, or Named Binary Tag, {@link Tag} objects to an underlying {@link java.io.OutputStream}. <p /> The NBT format was created by Markus Persson, and the specification may be found
@@ -165,6 +150,10 @@ public final class NBTOutputStream implements Closeable {
 
             case TAG_INT_ARRAY:
                 writeIntArrayTagPayload((IntArrayTag) tag);
+                break;
+
+            case TAG_LONG_ARRAY:
+                writeLongArrayTagPayload((LongArrayTag) tag);
                 break;
 
             case TAG_SHORT_ARRAY:
@@ -303,6 +292,20 @@ public final class NBTOutputStream implements Closeable {
         os.writeInt(ints.length);
         for (int i = 0; i < ints.length; i++) {
             os.writeInt(ints[i]);
+        }
+    }
+
+    /**
+     * Writes a {@code TAG_Long_Array} tag.
+     *
+     * @param tag The tag.
+     * @throws java.io.IOException if an I/O error occurs.
+     */
+    private void writeLongArrayTagPayload(LongArrayTag tag) throws IOException {
+        long[] ints = tag.getValue();
+        os.writeInt(ints.length);
+        for (int i = 0; i < ints.length; i++) {
+            os.writeLong(ints[i]);
         }
     }
 

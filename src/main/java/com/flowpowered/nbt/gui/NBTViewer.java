@@ -190,6 +190,8 @@ public class NBTViewer extends JFrame implements ActionListener {
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(this, "Unable to open file", "File Read Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
+            if(!compressed)
+            e.printStackTrace();
             return null;
         }
         return tags;
