@@ -55,6 +55,7 @@ import com.flowpowered.nbt.ListTag;
 import com.flowpowered.nbt.ShortArrayTag;
 import com.flowpowered.nbt.Tag;
 import com.flowpowered.nbt.itemmap.StringMapReader;
+import com.flowpowered.nbt.regionfile.RegionFileReader;
 import com.flowpowered.nbt.regionfile.SimpleRegionFileReader;
 import com.flowpowered.nbt.stream.NBTInputStream;
 
@@ -151,7 +152,7 @@ public class NBTViewer extends JFrame implements ActionListener {
             format = "Uncompressed NBT";
             return tags;
         }
-        tags = SimpleRegionFileReader.readFile(f);
+        tags = RegionFileReader.readFile(f);
         if (tags != null) {
             format = "SimpleRegionFile";
             return tags;
@@ -190,8 +191,6 @@ public class NBTViewer extends JFrame implements ActionListener {
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(this, "Unable to open file", "File Read Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
-            if(!compressed)
-            e.printStackTrace();
             return null;
         }
         return tags;

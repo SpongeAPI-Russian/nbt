@@ -24,6 +24,7 @@
 package com.flowpowered.nbt.stream;
 
 import java.io.Closeable;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteOrder;
@@ -41,7 +42,7 @@ public final class NBTInputStream implements Closeable {
     /**
      * The data input stream.
      */
-    private final EndianSwitchableInputStream is;
+    private final DataInputStream is;
 
     /**
      * Creates a new {@link NBTInputStream}, which will source its data from the specified input stream. This assumes the stream is compressed.
@@ -74,7 +75,8 @@ public final class NBTInputStream implements Closeable {
      * @throws java.io.IOException if an I/O error occurs.
      */
     public NBTInputStream(InputStream is, boolean compressed, ByteOrder endianness) throws IOException {
-        this.is = new EndianSwitchableInputStream(compressed ? new GZIPInputStream(is) : is, endianness);
+        this.is = is instanceof DataInputStream ? new DataInputStream(is) : new DataInputStream(is);
+//        this.is = new EndianSwitchableInputStream(compressed ? new GZIPInputStream(is) : is, endianness);
     }
 
     /**
@@ -222,12 +224,5 @@ public final class NBTInputStream implements Closeable {
 
     public void close() throws IOException {
         is.close();
-    }
-
-    /**
-     * @return whether this NBTInputStream reads numbers in little-endian format.
-     */
-    public ByteOrder getByteOrder() {
-        return is.getEndianness();
     }
 }

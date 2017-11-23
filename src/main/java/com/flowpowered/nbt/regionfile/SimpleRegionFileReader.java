@@ -47,11 +47,12 @@ public class SimpleRegionFileReader {
         }
 
         try {
-            int version = raf.readInt();
+            raf.skipBytes(930);
+//            int version = raf.readInt();
 
-            if (version != EXPECTED_VERSION) {
-                return null;
-            }
+//            if (version != EXPECTED_VERSION) {
+//                return null;
+//            }
 
             int segmentSize = raf.readInt();
             int segmentMask = (1 << segmentSize) - 1;

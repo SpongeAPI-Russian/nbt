@@ -83,8 +83,8 @@ license {
 
 // Source compiler configuration
 configure([compileJava, compileTestJava]) {
-    sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
+    sourceCompatibility = '9'
+    targetCompatibility = '9'
     options.encoding = 'UTF-8'
     options.compilerArgs << '-Xlint:all'
     options.compilerArgs << '-Xlint:-path'
