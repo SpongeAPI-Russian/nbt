@@ -50,7 +50,6 @@ import javax.swing.tree.DefaultTreeModel;
 import com.flowpowered.nbt.*;
 import com.flowpowered.nbt.itemmap.StringMapReader;
 import com.flowpowered.nbt.regionfile.RegionFileReader;
-import com.flowpowered.nbt.regionfile.SimpleRegionFileReader;
 import com.flowpowered.nbt.stream.NBTInputStream;
 
 public class NBTViewer extends JFrame implements ActionListener {
@@ -272,7 +271,7 @@ public class NBTViewer extends JFrame implements ActionListener {
 
     private static DefaultMutableTreeNode getNode(ByteArrayTag tag) {
         byte[] values = tag.getValue();
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(tag.getName() + " [byte[" + values.length + "]");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(tag.getName() + " [byte[" + values.length + "]]");
         StringBuilder sb = new StringBuilder("{");
         boolean first = true;
         for (byte v : values) {
@@ -333,7 +332,6 @@ public class NBTViewer extends JFrame implements ActionListener {
             }
             String s = Integer.toString(v);
             if (sb.length() + s.length() > MAX_WIDTH) {
-                sb.append("<br>");
                 DefaultMutableTreeNode child = new DefaultMutableTreeNode(sb.toString());
                 root.add(child);
                 sb.setLength(0);
@@ -359,7 +357,6 @@ public class NBTViewer extends JFrame implements ActionListener {
             }
             String s = Long.toString(v);
             if (sb.length() + s.length() > MAX_WIDTH) {
-                sb.append("<br>");
                 DefaultMutableTreeNode child = new DefaultMutableTreeNode(sb.toString());
                 root.add(child);
                 sb.setLength(0);

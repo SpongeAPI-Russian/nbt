@@ -3,7 +3,6 @@ package com.flowpowered.nbt.regionfile;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.logging.Logger;
 import java.util.zip.*;
