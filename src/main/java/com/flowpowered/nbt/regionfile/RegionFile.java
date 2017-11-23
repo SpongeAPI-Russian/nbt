@@ -86,6 +86,7 @@ public class RegionFile {
         }
         header.clear();
 
+
         // populate the tables
         IntBuffer headerAsInts = header.asIntBuffer();
         for (int i = 0; i < SECTOR_INTS; ++i) {
@@ -155,7 +156,7 @@ public class RegionFile {
             } catch (ZipException e) {
                 if (e.getMessage().equals("Not in GZIP format")) {
                     logger.info("Incorrect region version, switching to zlib...");
-                    file.seek((sectorNumber * SECTOR_BYTES) + Integer.BYTES);
+                    file.seek((sectorNumber * SECTOR_BYTES) + Integer.SIZE / Byte.SIZE);
                     file.write(VERSION_DEFLATE);
                     return new DataInputStream(new BufferedInputStream(new InflaterInputStream(new ByteArrayInputStream(data), new Inflater(), 2048)));
                 }
